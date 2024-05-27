@@ -20,7 +20,6 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     final isValid = formState?.validate() ?? false;
     if (isValid) {
       formState!.save();
-      print(formData);
     }
   }
 
