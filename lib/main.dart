@@ -27,6 +27,7 @@ class TikTokApp extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
+          useMaterial3: false,
         ),
         home: const SignUpScreen());
   }
