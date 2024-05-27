@@ -14,7 +14,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Sizes.size40),
@@ -53,7 +52,7 @@ class LoginScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 2,
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

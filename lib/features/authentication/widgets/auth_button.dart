@@ -7,42 +7,47 @@ class AuthButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.text,
+    this.onPressed,
   });
 
   final FaIcon icon;
   final String text;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: 1,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: Sizes.size12,
-          horizontal: Sizes.size16,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey.shade300,
-            width: Sizes.size1,
+    return GestureDetector(
+      onTap: onPressed,
+      child: FractionallySizedBox(
+        widthFactor: 1,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: Sizes.size12,
+            horizontal: Sizes.size16,
           ),
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: icon,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey.shade300,
+              width: Sizes.size1,
             ),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: Sizes.size16,
-                fontWeight: FontWeight.w600,
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: icon,
               ),
-            ),
-          ],
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: Sizes.size16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
