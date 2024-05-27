@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/interests_button.dart';
 
-class InterestsScreen extends StatelessWidget {
+class InterestsScreen extends StatefulWidget {
   const InterestsScreen({super.key});
 
   static const interests = [
@@ -47,69 +48,81 @@ class InterestsScreen extends StatelessWidget {
   ];
 
   @override
+  State<InterestsScreen> createState() => _InterestsScreenState();
+}
+
+class _InterestsScreenState extends State<InterestsScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showTitle = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _onScroll() {
+    bool shouldShowTitle = _scrollController.offset > 100;
+
+    if (shouldShowTitle != _showTitle) {
+      setState(() {
+        _showTitle = shouldShowTitle;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Choose your interests'),
+        title: AnimatedOpacity(
+          opacity: _showTitle ? 1 : 0,
+          duration: const Duration(milliseconds: 150),
+          child: const Text('Choose your interests'),
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: Sizes.size24,
-            right: Sizes.size24,
-            bottom: Sizes.size24,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gaps.v32,
-              const Text(
-                'Choose your interests',
-                style: TextStyle(
-                  fontSize: Sizes.size40,
-                  fontWeight: FontWeight.w700,
+      body: Scrollbar(
+        controller: _scrollController,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: Sizes.size24,
+              right: Sizes.size24,
+              bottom: Sizes.size24,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Gaps.v32,
+                const Text(
+                  'Choose your interests',
+                  style: TextStyle(
+                    fontSize: Sizes.size40,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              Gaps.v20,
-              const Text(
-                'Get better video recommendations',
-                style: TextStyle(fontSize: Sizes.size20),
-              ),
-              Gaps.v64,
-              Wrap(
-                runSpacing: 15,
-                spacing: 15,
-                children: [
-                  for (var interest in interests)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: Sizes.size16,
-                        horizontal: Sizes.size24,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(Sizes.size32),
-                        border: Border.all(
-                          color: Colors.black.withOpacity(0.1),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 5,
-                            spreadRadius: 5,
-                          )
-                        ],
-                      ),
-                      child: Text(
-                        interest,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    )
-                ],
-              )
-            ],
+                Gaps.v20,
+                const Text(
+                  'Get better video recommendations',
+                  style: TextStyle(fontSize: Sizes.size20),
+                ),
+                Gaps.v64,
+                Wrap(
+                  runSpacing: 15,
+                  spacing: 15,
+                  children: [
+                    for (var interest in InterestsScreen.interests)
+                      InterestButton(interest: interest)
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
