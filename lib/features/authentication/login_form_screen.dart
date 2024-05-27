@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -20,7 +21,16 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     final isValid = formState?.validate() ?? false;
     if (isValid) {
       formState!.save();
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const InterestsScreen(),
+      ));
     }
+  }
+
+  void _onNextTap() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const InterestsScreen(),
+    ));
   }
 
   @override
@@ -42,7 +52,12 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 decoration: const InputDecoration(
                   hintText: 'Email',
                 ),
-                validator: (value) => null,
+                validator: (value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Please write your email';
+                  }
+                  return null;
+                },
                 onSaved: (newValue) {
                   if (newValue != null) {
                     formData['email'] = newValue;
