@@ -1,16 +1,14 @@
-# tiktok_clone
+# Nomadcoders TikTok Clone
 
-A new Flutter project.
+- I took the TikTok clone lecture at the [nomadcoders](https://nomadcoders.co/).
+- [Go to the lecture](https://nomadcoders.co/tiktok-clone)
+- [Go to the notes](./lib/documents/)
 
-## Getting Started
+## Skills
 
-This project is a starting point for a Flutter application.
+- Dart
+- Flutter
 
-A few resources to get you started if this is your first Flutter project:
+## Packages
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [font_awesome_flutter](https://pub.dev/packages/font_awesome_flutter)
