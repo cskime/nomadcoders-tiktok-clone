@@ -21,16 +21,13 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     final isValid = formState?.validate() ?? false;
     if (isValid) {
       formState!.save();
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const InterestsScreen(),
-      ));
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const InterestsScreen(),
+        ),
+        (route) => false,
+      );
     }
-  }
-
-  void _onNextTap() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const InterestsScreen(),
-    ));
   }
 
   @override
