@@ -11,14 +11,6 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  static final screens = [
-    const Center(child: Text("Home")),
-    const Center(child: Text("Search")),
-    const Center(child: Text("Home")),
-    const Center(child: Text("Search")),
-    const Center(child: Text("Home")),
-  ];
-
   int _selectedIndex = 0;
 
   void _onTap(int index) => setState(() {
@@ -28,6 +20,65 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Stack(
+        children: [
+          Offstage(
+            offstage: _selectedIndex != 0,
+            child: const Center(
+              child: Text(
+                "Home",
+                style: TextStyle(
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: const Center(
+              child: Text(
+                "Discover",
+                style: TextStyle(
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 2,
+            child: const Center(
+              child: Text(
+                "Feed",
+                style: TextStyle(
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: const Center(
+              child: Text(
+                "Inbox",
+                style: TextStyle(
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 4,
+            child: const Center(
+              child: Text(
+                "Profile",
+                style: TextStyle(
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Padding(
@@ -39,24 +90,28 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 isSelected: _selectedIndex == 0,
                 title: 'Home',
                 icon: FontAwesomeIcons.house,
+                selectedIcon: FontAwesomeIcons.house,
                 onTap: () => _onTap(0),
               ),
               NavTab(
                 isSelected: _selectedIndex == 1,
                 title: 'Discover',
-                icon: FontAwesomeIcons.magnifyingGlass,
+                icon: FontAwesomeIcons.compass,
+                selectedIcon: FontAwesomeIcons.solidCompass,
                 onTap: () => _onTap(1),
               ),
               NavTab(
                 isSelected: _selectedIndex == 3,
                 title: 'Inbox',
                 icon: FontAwesomeIcons.message,
+                selectedIcon: FontAwesomeIcons.solidMessage,
                 onTap: () => _onTap(3),
               ),
               NavTab(
                 isSelected: _selectedIndex == 4,
                 title: 'Profile',
                 icon: FontAwesomeIcons.user,
+                selectedIcon: FontAwesomeIcons.solidUser,
                 onTap: () => _onTap(4),
               ),
             ],
