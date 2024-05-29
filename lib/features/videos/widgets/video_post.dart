@@ -54,6 +54,9 @@ class _VideoPostState extends State<VideoPost>
 
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
+    setState(() {
+      _videoPlayerController.play();
+    });
     await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
   }
