@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 final tabs = [
   'Top',
@@ -39,7 +40,22 @@ class DiscoverScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            for (final tab in tabs)
+            GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 9 / 16,
+              ),
+              itemBuilder: (context, index) => Container(
+                color: Colors.teal,
+                child: Center(
+                  child: Text(index.toString()),
+                ),
+              ),
+              padding: const EdgeInsets.all(Sizes.size8),
+            ),
+            for (final tab in tabs.skip(1))
               Center(
                 child: Text(
                   tab,
