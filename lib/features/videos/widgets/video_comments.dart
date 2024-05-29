@@ -17,7 +17,9 @@ class _VideoCommentsState extends State<VideoComments> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Container(
+      height: size.height * 0.8,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Sizes.size16),
       ),
@@ -37,73 +39,106 @@ class _VideoCommentsState extends State<VideoComments> {
             ),
           ],
         ),
-        body: ListView.separated(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size10,
-            horizontal: Sizes.size16,
-          ),
-          itemCount: 10,
-          itemBuilder: (context, index) => Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CircleAvatar(
-                radius: 18,
-                child: Text('JY'),
+        body: Stack(
+          children: [
+            ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size10,
+                horizontal: Sizes.size16,
               ),
-              Gaps.h10,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'joey',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: Sizes.size14,
-                        color: Colors.grey.shade600,
-                      ),
+              itemCount: 10,
+              itemBuilder: (context, index) => Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CircleAvatar(
+                    radius: 18,
+                    child: Text('JY'),
+                  ),
+                  Gaps.h10,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'joey',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Sizes.size14,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        Gaps.v3,
+                        const Text(
+                          "That's not it I've seen the same thing but also in a cave",
+                        )
+                      ],
                     ),
-                    Gaps.v3,
-                    const Text(
-                      "That's not it I've seen the same thing but also in a cave",
-                    )
-                  ],
+                  ),
+                  Gaps.h10,
+                  const Column(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.heart,
+                        color: Colors.grey,
+                        size: Sizes.size20,
+                      ),
+                      Gaps.v2,
+                      Text(
+                        '52.2K',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: Sizes.size12,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              separatorBuilder: (context, index) => Gaps.v20,
+            ),
+            Positioned(
+              width: size.width,
+              bottom: 0,
+              child: BottomAppBar(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.size16,
+                    vertical: Sizes.size10,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: Sizes.size16 + Sizes.size2,
+                        backgroundColor: Colors.grey.shade500,
+                        foregroundColor: Colors.white,
+                        child: const Text('JY'),
+                      ),
+                      Gaps.h10,
+                      Expanded(
+                        child: TextField(
+                          cursorColor: Theme.of(context).primaryColor,
+                          decoration: InputDecoration(
+                            hintText: 'Write a comment...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(Sizes.size12),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.size12,
+                              vertical: Sizes.size10,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Gaps.h10,
-              const Column(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.heart,
-                    color: Colors.grey,
-                    size: Sizes.size20,
-                  ),
-                  Gaps.v2,
-                  Text(
-                    '52.2K',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: Sizes.size12,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          separatorBuilder: (context, index) => Gaps.v20,
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundColor: Colors.grey.shade500,
-                foregroundColor: Colors.white,
-                child: const Text('JY'),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
