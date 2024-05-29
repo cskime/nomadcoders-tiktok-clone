@@ -15,7 +15,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   void _onTap(int index) => setState(() {
         _selectedIndex = index;
@@ -90,21 +90,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               NavTab(
-                isSelected: _selectedIndex == 0,
-                title: 'Home',
-                icon: FontAwesomeIcons.house,
-                selectedIcon: FontAwesomeIcons.house,
-                onTap: () => _onTap(0),
-                selectedIndex: _selectedIndex
-              ),
+                  isSelected: _selectedIndex == 0,
+                  title: 'Home',
+                  icon: FontAwesomeIcons.house,
+                  selectedIcon: FontAwesomeIcons.house,
+                  onTap: () => _onTap(0),
+                  selectedIndex: _selectedIndex),
               NavTab(
-                isSelected: _selectedIndex == 1,
-                title: 'Discover',
-                icon: FontAwesomeIcons.compass,
-                selectedIcon: FontAwesomeIcons.solidCompass,
-                onTap: () => _onTap(1),
-                selectedIndex: _selectedIndex
-              ),
+                  isSelected: _selectedIndex == 1,
+                  title: 'Discover',
+                  icon: FontAwesomeIcons.compass,
+                  selectedIcon: FontAwesomeIcons.solidCompass,
+                  onTap: () => _onTap(1),
+                  selectedIndex: _selectedIndex),
               Gaps.h24,
               GestureDetector(
                 onTap: _onPostVideoButtonTap,
@@ -114,21 +112,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               ),
               Gaps.h24,
               NavTab(
-                isSelected: _selectedIndex == 3,
-                title: 'Inbox',
-                icon: FontAwesomeIcons.message,
-                selectedIcon: FontAwesomeIcons.solidMessage,
-                onTap: () => _onTap(3),
-                selectedIndex: _selectedIndex
-              ),
+                  isSelected: _selectedIndex == 3,
+                  title: 'Inbox',
+                  icon: FontAwesomeIcons.message,
+                  selectedIcon: FontAwesomeIcons.solidMessage,
+                  onTap: () => _onTap(3),
+                  selectedIndex: _selectedIndex),
               NavTab(
-                isSelected: _selectedIndex == 4,
-                title: 'Profile',
-                icon: FontAwesomeIcons.user,
-                selectedIcon: FontAwesomeIcons.solidUser,
-                onTap: () => _onTap(4),
-                selectedIndex: _selectedIndex
-              ),
+                  isSelected: _selectedIndex == 4,
+                  title: 'Profile',
+                  icon: FontAwesomeIcons.user,
+                  selectedIcon: FontAwesomeIcons.solidUser,
+                  onTap: () => _onTap(4),
+                  selectedIndex: _selectedIndex),
             ],
           ),
         ),
