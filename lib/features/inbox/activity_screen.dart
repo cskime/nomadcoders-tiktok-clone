@@ -29,6 +29,11 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: Offset.zero,
   ).animate(_animationController);
 
+  late final Animation<Color?> _barrierAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black38,
+  ).animate(_animationController);
+
   final List<Map<String, dynamic>> _tabs = [
     {
       "title": "All activity",
@@ -56,6 +61,8 @@ class _ActivityScreenState extends State<ActivityScreen>
     }
   ];
 
+  bool _showsBarrier = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,12 +74,20 @@ class _ActivityScreenState extends State<ActivityScreen>
     });
   }
 
-  void _onTitleTap() {
+  void _toggleAnimations() async {
     if (_animationController.isCompleted) {
-      _animationController.reverse();
+      // reverse가 실행되는 중에는 상태를 바꾸지 않음
+      // 따라서, modal과 barrier에 적용된 animation이 끝까지 실행됨
+      // Barrier animation이 끝나서 투명색이 된 이후 상태 변경 코드 실행
+      // rebuild 되면서 barrier를 widget tree에서 제외
+      await _animationController.reverse();
     } else {
       _animationController.forward();
     }
+
+    setState(() {
+      _showsBarrier = !_showsBarrier;
+    });
   }
 
   @override
@@ -80,7 +95,7 @@ class _ActivityScreenState extends State<ActivityScreen>
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-          onTap: _onTitleTap,
+          onTap: _toggleAnimations,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -191,6 +206,12 @@ class _ActivityScreenState extends State<ActivityScreen>
                 )
             ],
           ),
+          if (_showsBarrier)
+            AnimatedModalBarrier(
+              color: _barrierAnimation,
+              dismissible: true,
+              onDismiss: _toggleAnimations,
+            ),
           SlideTransition(
             position: _panelAnimation,
             child: Container(
@@ -224,7 +245,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
