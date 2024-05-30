@@ -80,6 +80,7 @@ class _ActivityScreenState extends State<ActivityScreen>
       // 따라서, modal과 barrier에 적용된 animation이 끝까지 실행됨
       // Barrier animation이 끝나서 투명색이 된 이후 상태 변경 코드 실행
       // rebuild 되면서 barrier를 widget tree에서 제외
+      // 즉, hide animation이 완전히 끝난 뒤에 실제로 화면에서 삭제한다.
       await _animationController.reverse();
     } else {
       _animationController.forward();
