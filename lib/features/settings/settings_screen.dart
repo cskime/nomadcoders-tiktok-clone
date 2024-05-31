@@ -1,7 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _notifications = false;
+
+  void _notificationChanged(bool? newValue) {
+    if (newValue == null) return;
+
+    setState(() {
+      _notifications = newValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +27,92 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  const Text('Material'),
+                  Checkbox(
+                    value: _notifications,
+                    onChanged: _notificationChanged,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  const Text('Cupertino'),
+                  CupertinoCheckbox(
+                    value: _notifications,
+                    onChanged: _notificationChanged,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  const Text('Adaptive'),
+                  Checkbox.adaptive(
+                    value: _notifications,
+                    onChanged: _notificationChanged,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          CheckboxListTile(
+            value: _notifications,
+            title: const Text('ListTile with material design checkbox'),
+            checkColor: Colors.white,
+            activeColor: Colors.black,
+            onChanged: _notificationChanged,
+          ),
+          CheckboxListTile.adaptive(
+            value: _notifications,
+            title: const Text('ListTile with platform preferred checkbox'),
+            onChanged: _notificationChanged,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  const Text('Material'),
+                  Switch(
+                    value: _notifications,
+                    onChanged: _notificationChanged,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  const Text('Cupertino'),
+                  CupertinoSwitch(
+                    value: _notifications,
+                    onChanged: _notificationChanged,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  const Text('Adaptive'),
+                  Switch.adaptive(
+                    value: _notifications,
+                    onChanged: _notificationChanged,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SwitchListTile(
+            value: _notifications,
+            title: const Text('ListTile with material design switch'),
+            onChanged: _notificationChanged,
+          ),
+          SwitchListTile.adaptive(
+            value: _notifications,
+            title: const Text('ListTile with platform preferred switch'),
+            onChanged: _notificationChanged,
+          ),
           ListTile(
             onTap: () => showAboutDialog(
               context: context,
