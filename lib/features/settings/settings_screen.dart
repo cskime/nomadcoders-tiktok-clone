@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -136,35 +137,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 firstDate: DateTime(1950),
                 lastDate: DateTime(2030),
               );
+              // ignore: avoid_print
               print(date);
 
-              final time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-              );
-              print(time);
+              if (context.mounted) {
+                final time = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                // ignore: avoid_print
+                print(time);
+              }
 
-              final range = await showDateRangePicker(
-                context: context,
-                firstDate: DateTime(1950),
-                lastDate: DateTime(2030),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData(
-                      useMaterial3: false,
-                      appBarTheme: const AppBarTheme(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.black,
+              if (context.mounted) {
+                final range = await showDateRangePicker(
+                  context: context,
+                  firstDate: DateTime(1950),
+                  lastDate: DateTime(2030),
+                  builder: (context, child) {
+                    return Theme(
+                      data: ThemeData(
+                        useMaterial3: false,
+                        appBarTheme: const AppBarTheme(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.black,
+                        ),
                       ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              print(range);
+                      child: child!,
+                    );
+                  },
+                );
+                // ignore: avoid_print
+                print(range);
+              }
             },
             title: const Text('What is your birthday?'),
           ),
+          ListTile(
+            title: const Text('Log out (iOS)'),
+            textColor: Colors.red,
+            onTap: () => showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: const Text('Are you sure?'),
+                content: const Text('Plase dont go'),
+                actions: [
+                  CupertinoDialogAction(
+                    child: const Text('No'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  CupertinoDialogAction(
+                    isDestructiveAction: true,
+                    child: const Text('Yes'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text('Log out (Android)'),
+            textColor: Colors.red,
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Are you sure?'),
+                content: const Text('Plase dont go'),
+                actions: [
+                  IconButton(
+                    icon: const FaIcon(FontAwesomeIcons.car),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  TextButton(
+                    child: const Text('Yes'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
