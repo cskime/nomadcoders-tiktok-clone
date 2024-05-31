@@ -71,6 +71,11 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    // Widget이 dispose된 이후 `VideoPlayerController`가 사용되는 경우를 방지하기 위해
+    // 화면에 변화가 있더라도 widget이 unmounted 되었다면 video controller 실행을 막음
+    // Unmounted == widget이 widget tree에서 삭제됨
+    if (!mounted) return;
+
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
