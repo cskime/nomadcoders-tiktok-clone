@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
-class Gaps {
+abstract final class Gaps {
   // Vertical Gaps
   static const v1 = SizedBox(height: Sizes.size1);
   static const v2 = SizedBox(height: Sizes.size2);
