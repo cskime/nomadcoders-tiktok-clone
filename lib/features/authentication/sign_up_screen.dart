@@ -39,13 +39,18 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 Gaps.v20,
-                const Text(
-                  'Create a profile, follow other accounts, make your own videos, and more.',
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                    color: Colors.black45,
+                const Opacity(
+                  opacity: 0.7,
+                  child: Text(
+                    'Create a profile, follow other accounts, make your own videos, and more.',
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                      // color: isDarkMode(context)
+                      // ? Colors.grey.shade300
+                      // : Colors.black45,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 Gaps.v40,
                 if (orientation == Orientation.portrait) ...[
@@ -84,7 +89,6 @@ class SignUpScreen extends StatelessWidget {
         ),
         bottomNavigationBar: BottomAppBar(
           elevation: 2,
-          color: Colors.grey.shade50,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: Sizes.size32),
             child: Row(
