@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});
@@ -41,9 +42,9 @@ class _VideoCommentsState extends State<VideoComments> {
       ),
       clipBehavior: Clip.hardEdge,
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        backgroundColor: isDarkMode(context) ? null : Colors.grey.shade50,
         appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
+          backgroundColor: isDarkMode(context) ? null : Colors.grey.shade50,
           automaticallyImplyLeading: false,
           title: const Text('22796 comments'),
           actions: [
@@ -73,9 +74,11 @@ class _VideoCommentsState extends State<VideoComments> {
                   itemBuilder: (context, index) => Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 18,
-                        child: Text('JY'),
+                        backgroundColor:
+                            isDarkMode(context) ? Colors.grey.shade500 : null,
+                        child: const Text('JY'),
                       ),
                       Gaps.h10,
                       Expanded(
@@ -124,7 +127,6 @@ class _VideoCommentsState extends State<VideoComments> {
                 width: size.width,
                 bottom: 0,
                 child: BottomAppBar(
-                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: Sizes.size16,
@@ -133,7 +135,7 @@ class _VideoCommentsState extends State<VideoComments> {
                     child: Row(
                       children: [
                         CircleAvatar(
-                          radius: Sizes.size16 + Sizes.size2,
+                          radius: Sizes.size18,
                           backgroundColor: Colors.grey.shade500,
                           foregroundColor: Colors.white,
                           child: const Text('JY'),
@@ -159,17 +161,23 @@ class _VideoCommentsState extends State<VideoComments> {
                                     children: [
                                       FaIcon(
                                         FontAwesomeIcons.plus,
-                                        color: Colors.grey.shade700,
+                                        color: isDarkMode(context)
+                                            ? Colors.grey.shade500
+                                            : Colors.grey.shade700,
                                       ),
                                       Gaps.h10,
                                       FaIcon(
                                         FontAwesomeIcons.gift,
-                                        color: Colors.grey.shade700,
+                                        color: isDarkMode(context)
+                                            ? Colors.grey.shade500
+                                            : Colors.grey.shade700,
                                       ),
                                       Gaps.h10,
                                       FaIcon(
                                         FontAwesomeIcons.faceSmile,
-                                        color: Colors.grey.shade700,
+                                        color: isDarkMode(context)
+                                            ? Colors.grey.shade500
+                                            : Colors.grey.shade700,
                                       ),
                                       Gaps.h10,
                                       if (_isWriting)
@@ -191,7 +199,9 @@ class _VideoCommentsState extends State<VideoComments> {
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
-                                fillColor: Colors.grey.shade200,
+                                fillColor: isDarkMode(context)
+                                    ? Colors.grey.shade800
+                                    : Colors.grey.shade200,
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: Sizes.size12,
                                   vertical: Sizes.size10,
