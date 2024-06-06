@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -27,10 +28,26 @@ class _VideoPostState extends State<VideoPost>
       VideoPlayerController.asset('assets/videos/video.mp4');
 
   bool _isPaused = false;
+  bool _isMuted = false;
 
   final _animationDuration = const Duration(milliseconds: 200);
 
   late final AnimationController _animationController;
+
+  // IconData get _volumeIcon =>
+
+  void _setMute(bool mute) async {
+    await _videoPlayerController.setVolume(mute ? 0 : 1);
+    _isMuted = mute;
+  }
+
+  IconData get _muteIcon =>
+      _isMuted ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh;
+
+  void _onVolumePressed() async {
+    _setMute(!_isMuted);
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -54,10 +71,14 @@ class _VideoPostState extends State<VideoPost>
 
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
+
+    if (kIsWeb) {
+      _setMute(true);
+    }
     setState(() {
       _videoPlayerController.play();
     });
-    await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
   }
 
@@ -215,6 +236,17 @@ class _VideoPostState extends State<VideoPost>
                   title: 'Share',
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            top: 24,
+            left: 24,
+            child: IconButton(
+              icon: FaIcon(
+                _muteIcon,
+                color: Colors.white,
+              ),
+              onPressed: _onVolumePressed,
             ),
           ),
         ],
