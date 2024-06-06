@@ -55,10 +55,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
           ),
           bottom: TabBar(
-            tabs: [
-              for (final tab in tabs) Tab(text: tab),
-            ],
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            tabs: tabs.map((tabText) => Tab(text: tabText)).toList(),
+            tabAlignment: TabAlignment.start,
+            padding: const EdgeInsets.only(left: 8),
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 16,
@@ -101,6 +100,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       style: TextStyle(
                         fontSize: Sizes.size16 + Sizes.size2,
                         fontWeight: FontWeight.bold,
+                        height: 1.2,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

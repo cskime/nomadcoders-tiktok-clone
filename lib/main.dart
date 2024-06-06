@@ -29,6 +29,7 @@ class TikTokApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           elevation: 0,
           titleTextStyle: TextStyle(
             color: Colors.black,
@@ -42,7 +43,7 @@ class TikTokApp extends StatelessWidget {
           unselectedLabelColor: Colors.grey.shade500,
           indicatorColor: Colors.black,
         ),
-        useMaterial3: false,
+        useMaterial3: true,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -55,20 +56,24 @@ class TikTokApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           foregroundColor: Colors.white,
           backgroundColor: Colors.grey.shade900,
+          surfaceTintColor: Colors.grey.shade900,
           elevation: 0,
           titleTextStyle: const TextStyle(
             color: Colors.white,
             fontSize: Sizes.size16 + Sizes.size2,
             fontWeight: FontWeight.w700,
           ),
+          actionsIconTheme: IconThemeData(color: Colors.grey.shade100),
         ),
         bottomAppBarTheme: BottomAppBarTheme(
           color: Colors.grey.shade900,
         ),
-        tabBarTheme: const TabBarTheme(
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
           indicatorColor: Colors.white,
         ),
-        useMaterial3: false,
+        useMaterial3: true,
       ),
       // home: const MainNavigationScreen());
       home: const Scaffold(
