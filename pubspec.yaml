@@ -40,6 +40,11 @@ dependencies:
   visibility_detector: 0.3.3
   google_fonts: 4.0.1
 
+  flutter_localizations:
+    sdk: flutter
+
+  intl: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

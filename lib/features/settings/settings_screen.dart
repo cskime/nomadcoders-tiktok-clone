@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
@@ -141,37 +142,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     firstDate: DateTime(1950),
                     lastDate: DateTime(2030),
                   );
-                  // ignore: avoid_print
-                  print(date);
+                  if (kDebugMode) {
+                    print(date);
+                  }
 
-                  if (context.mounted) {
-                    final time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    // ignore: avoid_print
+                  if (!context.mounted) return;
+
+                  final time = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (kDebugMode) {
                     print(time);
                   }
 
-                  if (context.mounted) {
-                    final range = await showDateRangePicker(
-                      context: context,
-                      firstDate: DateTime(1950),
-                      lastDate: DateTime(2030),
-                      builder: (context, child) {
-                        return Theme(
-                          data: ThemeData(
-                            useMaterial3: false,
-                            appBarTheme: const AppBarTheme(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.black,
-                            ),
+                  if (!context.mounted) return;
+
+                  final range = await showDateRangePicker(
+                    context: context,
+                    firstDate: DateTime(1950),
+                    lastDate: DateTime(2030),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData(
+                          useMaterial3: false,
+                          appBarTheme: const AppBarTheme(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.black,
                           ),
-                          child: child!,
-                        );
-                      },
-                    );
-                    // ignore: avoid_print
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (kDebugMode) {
                     print(range);
                   }
                 },
