@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(value) => "${value}";
 
   static String m1(value) =>
-      "${value} “${Intl.plural(value2, one: 'comment', other: 'comments')}";
+      "${Intl.plural(value, one: 'comment', other: 'comments')}";
 
   static String m2(value) => "${value}";
 
@@ -32,7 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m5(videoCount) =>
       "Create a profile, follow other accounts, make your own videos, and more.";
 
-  static String m6(nameOfTheApp) => "${nameOfTheApp}에 가입하기";
+  static String m6(nameOfTheApp, when) => "${nameOfTheApp}에 가입하기 ${when}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
