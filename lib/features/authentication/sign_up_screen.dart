@@ -25,94 +25,90 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Localizations.override(
-      context: context,
-      locale: const Locale('ko'),
-      child: OrientationBuilder(
-        builder: (context, orientation) => Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
-              child: Column(
-                children: [
-                  Gaps.v80,
-                  Text(
-                    S.of(context).signUpTitle('TikTok'),
+    return OrientationBuilder(
+      builder: (context, orientation) => Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
+            child: Column(
+              children: [
+                Gaps.v80,
+                Text(
+                  S.of(context).signUpTitle('TikTok'),
+                  style: const TextStyle(
+                    fontSize: Sizes.size24,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Gaps.v20,
+                Opacity(
+                  opacity: 0.7,
+                  child: Text(
+                    S.of(context).signUpSubtitle(2),
                     style: const TextStyle(
-                      fontSize: Sizes.size24,
-                      fontWeight: FontWeight.w700,
+                      fontSize: Sizes.size16,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  Gaps.v20,
-                  Opacity(
-                    opacity: 0.7,
-                    child: Text(
-                      S.of(context).signUpSubtitle,
-                      style: const TextStyle(
-                        fontSize: Sizes.size16,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                ),
+                Gaps.v40,
+                if (orientation == Orientation.portrait) ...[
+                  AuthButton(
+                    icon: const FaIcon(FontAwesomeIcons.user),
+                    text: S.of(context).emailPasswordButton,
+                    onPressed: () => _onEmailTap(context),
                   ),
-                  Gaps.v40,
-                  if (orientation == Orientation.portrait) ...[
-                    AuthButton(
-                      icon: const FaIcon(FontAwesomeIcons.user),
-                      text: S.of(context).emailPasswordButton,
-                      onPressed: () => _onEmailTap(context),
-                    ),
-                    Gaps.v16,
-                    AuthButton(
-                      icon: const FaIcon(FontAwesomeIcons.apple),
-                      text: S.of(context).appleButton,
-                    ),
-                  ],
-                  if (orientation == Orientation.landscape)
-                    Row(
-                      children: [
-                        Expanded(
-                            child: AuthButton(
-                          icon: const FaIcon(FontAwesomeIcons.user),
-                          text: S.of(context).emailPasswordButton,
-                          onPressed: () => _onEmailTap(context),
-                        )),
-                        Gaps.h16,
-                        Expanded(
-                          child: AuthButton(
-                            icon: const FaIcon(FontAwesomeIcons.apple),
-                            text: S.of(context).appleButton,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Gaps.v16,
+                  AuthButton(
+                    icon: const FaIcon(FontAwesomeIcons.apple),
+                    text: S.of(context).appleButton,
+                  ),
                 ],
-              ),
+                if (orientation == Orientation.landscape)
+                  Row(
+                    children: [
+                      Expanded(
+                          child: AuthButton(
+                        icon: const FaIcon(FontAwesomeIcons.user),
+                        text: S.of(context).emailPasswordButton,
+                        onPressed: () => _onEmailTap(context),
+                      )),
+                      Gaps.h16,
+                      Expanded(
+                        child: AuthButton(
+                          icon: const FaIcon(FontAwesomeIcons.apple),
+                          text: S.of(context).appleButton,
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
             ),
           ),
-          bottomNavigationBar: Container(
-            color: isDarkMode(context) ? null : Colors.grey.shade50,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: Sizes.size32,
-                bottom: Sizes.size64,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(S.of(context).alreadyHaveAccount),
-                  Gaps.h5,
-                  GestureDetector(
-                    onTap: () => _onLogInTap(context),
-                    child: Text(
-                      S.of(context).login,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w600,
-                      ),
+        ),
+        bottomNavigationBar: Container(
+          color: isDarkMode(context) ? null : Colors.grey.shade50,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: Sizes.size32,
+              bottom: Sizes.size64,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(S.of(context).alreadyHaveAccount),
+                Gaps.h5,
+                GestureDetector(
+                  onTap: () => _onLogInTap(context),
+                  child: Text(
+                    S.of(context).login('female'),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
