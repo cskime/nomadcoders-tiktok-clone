@@ -119,6 +119,48 @@ class S {
       args: [gender],
     );
   }
+
+  /// `{value}`
+  String likeCount(int value) {
+    final NumberFormat valueNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String valueString = valueNumberFormat.format(value);
+
+    return Intl.message(
+      '$valueString',
+      name: 'likeCount',
+      desc: 'Anything you want',
+      args: [valueString],
+    );
+  }
+
+  /// `{value}`
+  String commentCount(int value) {
+    final NumberFormat valueNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String valueString = valueNumberFormat.format(value);
+
+    return Intl.message(
+      '$valueString',
+      name: 'commentCount',
+      desc: 'Anything you want',
+      args: [valueString],
+    );
+  }
+
+  /// `{value, plural, =1{{value} comment} other{{value} comments}}`
+  String commentTitle(int value) {
+    return Intl.plural(
+      value,
+      one: '$value comment',
+      other: '$value comments',
+      name: 'commentTitle',
+      desc: 'Anything you want',
+      args: [value],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

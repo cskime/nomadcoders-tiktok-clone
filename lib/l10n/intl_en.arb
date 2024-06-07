@@ -23,5 +23,35 @@
   "emailPasswordButton": "Use email & password",
   "appleButton": "Continue with Apple",
   "alreadyHaveAccount": "Already have an account?",
-  "login": "Log in {gender, select, male{sir} female{madam} other{human}}"
+  "login": "Log in {gender, select, male{sir} female{madam} other{human}}",
+  "likeCount": "{value}",
+  "@likeCount": {
+    "description": "Anything you want",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "commentCount": "{value}",
+  "@commentCount": {
+    "description": "Anything you want",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "commentTitle": "{value, plural, =1{{value} comment} other{{value} comments}}",
+  "@commentTitle": {
+    "description": "Anything you want",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  }
 }

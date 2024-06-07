@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
+import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
 
 void main() async {
@@ -89,7 +89,7 @@ class TikTokApp extends StatelessWidget {
       ),
       // home: const MainNavigationScreen());
       home: const Scaffold(
-        body: SignUpScreen(),
+        body: MainNavigationScreen(),
       ),
     );
   }
