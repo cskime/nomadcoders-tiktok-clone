@@ -12,13 +12,31 @@ class VideoRecordingScreen extends StatefulWidget {
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
-class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+class _VideoRecordingScreenState extends State<VideoRecordingScreen>
+    with TickerProviderStateMixin {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
 
   late FlashMode _flashMode;
 
   late CameraController _cameraController;
+
+  late final _buttonAnimationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 150),
+  );
+
+  late final Animation<double> _recordButtonAnimation = Tween(
+    begin: 1.0,
+    end: 1.3,
+  ).animate(_buttonAnimationController);
+
+  late final _progressAnimationController = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 10),
+    lowerBound: 0.0,
+    upperBound: 1.0,
+  );
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
@@ -66,10 +84,35 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     setState(() {});
   }
 
+  void _startRecording() async {
+    _buttonAnimationController.forward();
+    _progressAnimationController.forward();
+  }
+
+  void _stopRecording() async {
+    _buttonAnimationController.reverse();
+    _progressAnimationController.reset();
+  }
+
   @override
   void initState() {
     super.initState();
     initPermissions();
+
+    _progressAnimationController.addListener(() => setState(() {}));
+    _progressAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _stopRecording();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    _buttonAnimationController.dispose();
+    _progressAnimationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,7 +120,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height,
         child: !_hasPermission || !_cameraController.value.isInitialized
             ? const Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +143,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                   Positioned(
                     top: Sizes.size64,
                     right: Sizes.size16,
-                    child: Column(
+                    child: Row(
                       children: [
                         IconButton(
                           icon: const Icon(Icons.cameraswitch),
@@ -127,6 +171,39 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                           onPressed: _setFlashMode,
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: Sizes.size40,
+                    child: GestureDetector(
+                      onTapDown: (_) => _startRecording(),
+                      onTapUp: (_) => _stopRecording(),
+                      onLongPressUp: () => _stopRecording(),
+                      child: ScaleTransition(
+                        scale: _recordButtonAnimation,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: Sizes.size80 + Sizes.size10,
+                              height: Sizes.size80 + Sizes.size10,
+                              child: CircularProgressIndicator(
+                                value: _progressAnimationController.value,
+                                color: Colors.red.shade500,
+                                strokeWidth: Sizes.size4,
+                              ),
+                            ),
+                            Container(
+                              width: Sizes.size80,
+                              height: Sizes.size80,
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade500,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
