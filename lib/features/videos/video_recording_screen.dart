@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/flash_mode_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
@@ -14,6 +15,8 @@ class VideoRecordingScreen extends StatefulWidget {
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
+
+  late FlashMode _flashMode;
 
   late CameraController _cameraController;
 
@@ -30,6 +33,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     );
 
     await _cameraController.initialize();
+
+    _flashMode = _cameraController.value.flashMode;
   }
 
   Future<void> initPermissions() async {
@@ -52,6 +57,12 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   Future<void> _toggleSelfieMode() async {
     _isSelfieMode = !_isSelfieMode;
     await initCamera();
+    setState(() {});
+  }
+
+  Future<void> _setFlashMode(FlashMode newFlashMode) async {
+    await _cameraController.setFlashMode(newFlashMode);
+    _flashMode = newFlashMode;
     setState(() {});
   }
 
@@ -86,12 +97,36 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                 children: [
                   CameraPreview(_cameraController),
                   Positioned(
-                    top: Sizes.size40,
-                    left: Sizes.size20,
-                    child: IconButton(
-                      icon: const Icon(Icons.cameraswitch),
-                      color: Colors.white,
-                      onPressed: _toggleSelfieMode,
+                    top: Sizes.size64,
+                    right: Sizes.size16,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.cameraswitch),
+                          color: Colors.white,
+                          onPressed: _toggleSelfieMode,
+                        ),
+                        FlashModeButton(
+                          flashMode: FlashMode.off,
+                          selected: _flashMode == FlashMode.off,
+                          onPressed: _setFlashMode,
+                        ),
+                        FlashModeButton(
+                          flashMode: FlashMode.always,
+                          selected: _flashMode == FlashMode.always,
+                          onPressed: _setFlashMode,
+                        ),
+                        FlashModeButton(
+                          flashMode: FlashMode.auto,
+                          selected: _flashMode == FlashMode.auto,
+                          onPressed: _setFlashMode,
+                        ),
+                        FlashModeButton(
+                          flashMode: FlashMode.torch,
+                          selected: _flashMode == FlashMode.torch,
+                          onPressed: _setFlashMode,
+                        ),
+                      ],
                     ),
                   ),
                 ],
