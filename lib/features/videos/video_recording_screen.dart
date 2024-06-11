@@ -16,13 +16,15 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
 
   late FlashMode _flashMode;
 
   late CameraController _cameraController;
+
+  bool _appInBackground = false;
 
   late final _buttonAnimationController = AnimationController(
     vsync: this,
@@ -41,7 +43,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     upperBound: 1.0,
   );
 
-  Future<void> initCamera() async {
+  Future<void> _initCamera() async {
     final cameras = await availableCameras();
 
     if (cameras.isEmpty) {
@@ -52,10 +54,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       cameras[_isSelfieMode ? 1 : 0],
       ResolutionPreset.low,
     );
-
     await _cameraController.initialize();
-
     _flashMode = _cameraController.value.flashMode;
+
+    setState(() {});
   }
 
   Future<void> initPermissions() async {
@@ -70,15 +72,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     if (!cameraDenied && !micDenied) {
       _hasPermission = true;
-      await initCamera();
-      setState(() {});
+      await _initCamera();
     }
   }
 
   Future<void> _toggleSelfieMode() async {
     _isSelfieMode = !_isSelfieMode;
-    await initCamera();
-    setState(() {});
+    await _initCamera();
   }
 
   Future<void> _setFlashMode(FlashMode newFlashMode) async {
@@ -122,27 +122,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initPermissions();
-
-    _progressAnimationController.addListener(() => setState(() {}));
-    _progressAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _stopRecording();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _cameraController.dispose();
-    _buttonAnimationController.dispose();
-    _progressAnimationController.dispose();
-    super.dispose();
-  }
-
   Future<void> _onpickVideoPressed() async {
     final video = await ImagePicker().pickVideo(
       source: ImageSource.gallery,
@@ -164,6 +143,50 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPermissions();
+
+    WidgetsBinding.instance.addObserver(this);
+
+    _progressAnimationController.addListener(() => setState(() {}));
+    _progressAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _stopRecording();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    _buttonAnimationController.dispose();
+    _progressAnimationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    if (!_hasPermission || !_cameraController.value.isInitialized) {
+      return;
+    }
+
+    switch (state) {
+      case AppLifecycleState.inactive:
+        _appInBackground = true;
+        setState(() {});
+        _cameraController.dispose();
+      case AppLifecycleState.resumed:
+        _appInBackground = false;
+        await _initCamera();
+      default:
+        return;
+    }
   }
 
   @override
@@ -190,7 +213,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
             : Stack(
                 alignment: Alignment.center,
                 children: [
-                  CameraPreview(_cameraController),
+                  if (!_appInBackground) CameraPreview(_cameraController),
                   Positioned(
                     top: Sizes.size64,
                     right: Sizes.size16,
