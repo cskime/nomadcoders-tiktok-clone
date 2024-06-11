@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +21,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermission = false;
   bool _isSelfieMode = false;
+
+  late double _maximumZoomScale;
 
   late FlashMode _flashMode;
 
@@ -55,6 +59,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       ResolutionPreset.low,
     );
     await _cameraController.initialize();
+    _maximumZoomScale = await _cameraController.getMaxZoomLevel();
+    print(_maximumZoomScale);
     _flashMode = _cameraController.value.flashMode;
 
     setState(() {});
@@ -143,6 +149,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         ),
       ),
     );
+  }
+
+  void _onRecordingMoveUpdate(LongPressMoveUpdateDetails details) {
+    final offset = details.offsetFromOrigin;
+    if (offset.dy > 0) {
+      return;
+    }
+
+    final zoomLevel = max(1.0, min(offset.dy.abs(), _maximumZoomScale));
+    _cameraController.setZoomLevel(zoomLevel);
   }
 
   @override
@@ -257,6 +273,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                           onTapDown: (_) => _startRecording(),
                           onTapUp: (_) => _stopRecording(),
                           onLongPressUp: () => _stopRecording(),
+                          onLongPressMoveUpdate: _onRecordingMoveUpdate,
                           child: ScaleTransition(
                             scale: _recordButtonAnimation,
                             child: Stack(
