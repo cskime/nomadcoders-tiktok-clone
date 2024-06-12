@@ -110,11 +110,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ],
               ),
-              AnimatedBuilder(
-                animation: videoConfig,
-                builder: (context, child) => SwitchListTile(
-                  value: videoConfig.autoMute,
-                  onChanged: (_) => videoConfig.toggleAutoMute(),
+              ValueListenableBuilder(
+                valueListenable: videoConfig,
+                builder: (context, value, child) => SwitchListTile(
+                  value: value,
+                  onChanged: (_) => videoConfig.value = !videoConfig.value,
                   title: const Text('Auto mute'),
                   subtitle: const Text('Videos will be muted by default.'),
                 ),
