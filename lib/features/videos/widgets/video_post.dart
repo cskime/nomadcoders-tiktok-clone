@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
@@ -41,9 +42,6 @@ class _VideoPostState extends State<VideoPost>
     await _videoPlayerController.setVolume(mute ? 0 : 1);
     _isMuted = mute;
   }
-
-  IconData get _muteIcon =>
-      _isMuted ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh;
 
   void _onVolumePressed() async {
     _setMute(!_isMuted);
@@ -240,11 +238,13 @@ class _VideoPostState extends State<VideoPost>
             ),
           ),
           Positioned(
-            top: 24,
-            left: 24,
+            top: Sizes.size40,
+            left: Sizes.size24,
             child: IconButton(
               icon: FaIcon(
-                _muteIcon,
+                VideoConfig.of(context).autoMute
+                    ? FontAwesomeIcons.volumeOff
+                    : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
               onPressed: _onVolumePressed,
