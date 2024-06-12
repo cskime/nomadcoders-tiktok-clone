@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +29,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   late FlashMode _flashMode;
 
   late CameraController _cameraController;
+
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
 
   bool _appInBackground = false;
 
@@ -60,7 +64,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
     await _cameraController.initialize();
     _maximumZoomScale = await _cameraController.getMaxZoomLevel();
-    print(_maximumZoomScale);
     _flashMode = _cameraController.value.flashMode;
 
     setState(() {});
@@ -128,7 +131,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
   }
 
-  Future<void> _onpickVideoPressed() async {
+  Future<void> _onPickVideoPressed() async {
     final video = await ImagePicker().pickVideo(
       source: ImageSource.gallery,
     );
@@ -164,7 +167,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    initPermissions();
+
+    if (!_noCamera) {
+      initPermissions();
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
+    }
 
     WidgetsBinding.instance.addObserver(this);
 
@@ -188,12 +198,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
 
+    print(state);
+
     if (!_hasPermission || !_cameraController.value.isInitialized) {
       return;
     }
 
     switch (state) {
-      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
         _appInBackground = true;
         setState(() {});
         _cameraController.dispose();
@@ -212,7 +224,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       body: SizedBox(
         width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height,
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? const Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -229,40 +241,44 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
             : Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (!_appInBackground) CameraPreview(_cameraController),
-                  Positioned(
-                    top: Sizes.size64,
-                    right: Sizes.size16,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.cameraswitch),
-                          color: Colors.white,
-                          onPressed: _toggleSelfieMode,
-                        ),
-                        FlashModeButton(
-                          flashMode: FlashMode.off,
-                          selected: _flashMode == FlashMode.off,
-                          onPressed: _setFlashMode,
-                        ),
-                        FlashModeButton(
-                          flashMode: FlashMode.always,
-                          selected: _flashMode == FlashMode.always,
-                          onPressed: _setFlashMode,
-                        ),
-                        FlashModeButton(
-                          flashMode: FlashMode.auto,
-                          selected: _flashMode == FlashMode.auto,
-                          onPressed: _setFlashMode,
-                        ),
-                        FlashModeButton(
-                          flashMode: FlashMode.torch,
-                          selected: _flashMode == FlashMode.torch,
-                          onPressed: _setFlashMode,
-                        ),
-                      ],
+                  if (!_appInBackground &&
+                      !_noCamera &&
+                      _cameraController.value.isInitialized)
+                    CameraPreview(_cameraController),
+                  if (!_noCamera)
+                    Positioned(
+                      top: Sizes.size64,
+                      right: Sizes.size16,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.cameraswitch),
+                            color: Colors.white,
+                            onPressed: _toggleSelfieMode,
+                          ),
+                          FlashModeButton(
+                            flashMode: FlashMode.off,
+                            selected: _flashMode == FlashMode.off,
+                            onPressed: _setFlashMode,
+                          ),
+                          FlashModeButton(
+                            flashMode: FlashMode.always,
+                            selected: _flashMode == FlashMode.always,
+                            onPressed: _setFlashMode,
+                          ),
+                          FlashModeButton(
+                            flashMode: FlashMode.auto,
+                            selected: _flashMode == FlashMode.auto,
+                            onPressed: _setFlashMode,
+                          ),
+                          FlashModeButton(
+                            flashMode: FlashMode.torch,
+                            selected: _flashMode == FlashMode.torch,
+                            onPressed: _setFlashMode,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                   Positioned(
                     bottom: Sizes.size40,
                     width: MediaQuery.of(context).size.width,
@@ -304,7 +320,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                           child: Container(
                             alignment: Alignment.center,
                             child: IconButton(
-                              onPressed: _onpickVideoPressed,
+                              onPressed: _onPickVideoPressed,
                               icon: const FaIcon(
                                 FontAwesomeIcons.images,
                                 color: Colors.white,
