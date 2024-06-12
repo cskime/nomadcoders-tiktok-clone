@@ -13,6 +13,9 @@ import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
 import 'package:tiktok_clone/features/videos/widgets/flash_mode_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  static const routeName = 'postVideo';
+  static const routeURL = '/upload';
+
   const VideoRecordingScreen({super.key});
 
   @override
@@ -197,8 +200,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-
-    print(state);
 
     if (!_hasPermission || !_cameraController.value.isInitialized) {
       return;
