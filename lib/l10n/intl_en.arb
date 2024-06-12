@@ -23,7 +23,7 @@
   "emailPasswordButton": "Use email & password",
   "appleButton": "Continue with Apple",
   "alreadyHaveAccount": "Already have an account?",
-  "login": "Log in {gender, select, male{sir} female{madam} other{human}}",
+  "login": "Log in",
   "likeCount": "{value}",
   "@likeCount": {
     "description": "Anything you want",

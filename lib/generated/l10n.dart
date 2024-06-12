@@ -110,13 +110,13 @@ class S {
     );
   }
 
-  /// `Log in {gender, select, male{sir} female{madam} other{human}}`
-  String login(String gender) {
+  /// `Log in`
+  String get login {
     return Intl.message(
-      'Log in ${Intl.gender(gender, male: 'sir', female: 'madam', other: 'human')}',
+      'Log in',
       name: 'login',
       desc: '',
-      args: [gender],
+      args: [],
     );
   }
 

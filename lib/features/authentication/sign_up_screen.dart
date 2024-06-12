@@ -15,11 +15,13 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   void _onLogInTap(BuildContext context) {
-    context.push(LoginScreen.routeName);
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
-    context.pushNamed(UsernameScreen.routeName);
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const UsernameScreen(),
+    ));
   }
 
   @override
@@ -100,7 +102,7 @@ class SignUpScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () => _onLogInTap(context),
                   child: Text(
-                    S.of(context).login('female'),
+                    S.of(context).login,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w600,
