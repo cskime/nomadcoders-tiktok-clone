@@ -242,12 +242,12 @@ class _VideoPostState extends State<VideoPost>
             left: Sizes.size24,
             child: IconButton(
               icon: FaIcon(
-                VideoConfig.of(context).autoMute
+                VideoConfigData.of(context).autoMute
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: _onVolumePressed,
+              onPressed: VideoConfigData.of(context).toggleMuted,
             ),
           ),
         ],
