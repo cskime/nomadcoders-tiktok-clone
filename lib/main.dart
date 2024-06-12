@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -18,7 +19,10 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return VideoConfig(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => VideoConfig()),
+      ],
       child: MaterialApp.router(
         routerConfig: router,
         title: 'TikTok Clone',
