@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_view_model.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -35,96 +35,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           constraints: const BoxConstraints(maxWidth: Breakpoints.small),
           child: ListView(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    children: [
-                      const Text('Material'),
-                      Checkbox(
-                        value: _notifications,
-                        onChanged: _notificationChanged,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const Text('Cupertino'),
-                      CupertinoCheckbox(
-                        value: _notifications,
-                        onChanged: _notificationChanged,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const Text('Adaptive'),
-                      Checkbox.adaptive(
-                        value: _notifications,
-                        onChanged: _notificationChanged,
-                      ),
-                    ],
-                  ),
-                ],
+              SwitchListTile.adaptive(
+                value: context.watch<PlaybackConfigViewModel>().muted,
+                onChanged: context.read<PlaybackConfigViewModel>().setMuted,
+                title: const Text('Muted video'),
+                subtitle: const Text('Video will be muted by default.'),
               ),
-              CheckboxListTile(
-                value: _notifications,
-                title: const Text('ListTile with material design checkbox'),
-                checkColor: Colors.white,
-                activeColor: Colors.black,
-                onChanged: _notificationChanged,
-              ),
-              CheckboxListTile.adaptive(
-                value: _notifications,
-                title: const Text('ListTile with platform preferred checkbox'),
-                onChanged: _notificationChanged,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    children: [
-                      const Text('Material'),
-                      Switch(
-                        value: _notifications,
-                        onChanged: _notificationChanged,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const Text('Cupertino'),
-                      CupertinoSwitch(
-                        value: _notifications,
-                        onChanged: _notificationChanged,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const Text('Adaptive'),
-                      Switch.adaptive(
-                        value: _notifications,
-                        onChanged: _notificationChanged,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SwitchListTile(
-                value: context.watch<VideoConfig>().isMuted,
-                onChanged: (_) => context.read<VideoConfig>().toggleIsMuted(),
-                title: const Text('Auto Mute'),
-              ),
-              SwitchListTile(
-                value: _notifications,
-                title: const Text('ListTile with material design switch'),
-                onChanged: _notificationChanged,
+              SwitchListTile.adaptive(
+                value: context.watch<PlaybackConfigViewModel>().autoplay,
+                onChanged: context.read<PlaybackConfigViewModel>().setAutoplay,
+                title: const Text('Autoplay'),
+                subtitle: const Text('Video will start playing automatically.'),
               ),
               SwitchListTile.adaptive(
                 value: _notifications,
-                title: const Text('ListTile with platform preferred switch'),
                 onChanged: _notificationChanged,
+                title: const Text('Enable notifications'),
+                subtitle: const Text('They will be cute.'),
+              ),
+              CheckboxListTile(
+                value: _notifications,
+                onChanged: _notificationChanged,
+                checkColor: Colors.white,
+                activeColor: Colors.black,
+                title: const Text('Marketing emails'),
+                subtitle: const Text("We don't spam you."),
               ),
               ListTile(
                 onTap: () => showAboutDialog(
