@@ -35,4 +35,8 @@ class AuthenticationRepository {
       password: password,
     );
   }
+
+  Future<void> signInWithGitHub() async {
+    await _firebaseAuth.signInWithProvider(GithubAuthProvider());
+  }
 }

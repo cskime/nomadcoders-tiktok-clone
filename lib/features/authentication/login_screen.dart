@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
+import 'package:tiktok_clone/features/authentication/view_models/social_auth_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/utils.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   static const routeName = 'login';
   static const routeURL = '/login';
   const LoginScreen({super.key});
@@ -23,8 +25,12 @@ class LoginScreen extends StatelessWidget {
     ));
   }
 
+  void _onGitHubLoginTap(BuildContext context, WidgetRef ref) async {
+    await ref.read(socialAuthProvider.notifier).signInWithGitHub(context);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -57,9 +63,10 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () => _onEmailLoginTap(context),
               ),
               Gaps.v8,
-              const AuthButton(
-                icon: FaIcon(FontAwesomeIcons.apple),
-                text: 'Continue with Apple',
+              AuthButton(
+                icon: const FaIcon(FontAwesomeIcons.github),
+                text: 'Continue with GitHub',
+                onPressed: () => _onGitHubLoginTap(context, ref),
               ),
             ],
           ),
