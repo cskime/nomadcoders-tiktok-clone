@@ -28,7 +28,7 @@ void main() async {
   runApp(
     ProviderScope(
       overrides: [
-        playbackConfigProvider.overrideWith(
+        playbackConfigViewModel.overrideWith(
           () => PlaybackConfigViewModel(repository),
         ),
       ],

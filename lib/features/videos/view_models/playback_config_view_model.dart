@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/videos/models/playback_config_model.dart';
 import 'package:tiktok_clone/features/videos/repositories/video_playback_config_repository.dart';
 
-final playbackConfigProvider =
+final playbackConfigViewModel =
     NotifierProvider<PlaybackConfigViewModel, PlaybackConfigModel>(
   () => throw UnimplementedError(),
 );

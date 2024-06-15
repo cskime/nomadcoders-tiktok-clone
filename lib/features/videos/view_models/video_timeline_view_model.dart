@@ -3,6 +3,11 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/videos/models/video_model.dart';
 
+final videoTimelineViewModel =
+    AsyncNotifierProvider<VideoTimelineViewModel, List<VideoModel>>(
+  () => VideoTimelineViewModel(),
+);
+
 class VideoTimelineViewModel extends AsyncNotifier<List<VideoModel>> {
   List<VideoModel> _list = [
     VideoModel(title: 'First video'),
@@ -24,8 +29,3 @@ class VideoTimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     return _list;
   }
 }
-
-final videoTimelineProvider =
-    AsyncNotifierProvider<VideoTimelineViewModel, List<VideoModel>>(
-  () => VideoTimelineViewModel(),
-);

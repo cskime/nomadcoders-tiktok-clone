@@ -65,7 +65,7 @@ class VideoPostState extends ConsumerState<VideoPost>
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
 
-    if (ref.read(playbackConfigProvider).muted) {
+    if (ref.read(playbackConfigViewModel).muted) {
       _videoPlayerController.setVolume(0);
     } else {
       _videoPlayerController.setVolume(1);
@@ -103,7 +103,7 @@ class VideoPostState extends ConsumerState<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      if (ref.read(playbackConfigProvider).autoplay) {
+      if (ref.read(playbackConfigViewModel).autoplay) {
         _videoPlayerController.play();
       } else {
         _videoPlayerController.pause();
@@ -250,7 +250,7 @@ class VideoPostState extends ConsumerState<VideoPost>
             left: Sizes.size24,
             child: IconButton(
               icon: FaIcon(
-                ref.watch(playbackConfigProvider).muted
+                ref.watch(playbackConfigViewModel).muted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,

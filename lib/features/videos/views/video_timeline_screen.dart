@@ -38,7 +38,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   @override
   void dispose() {
     _pageController.dispose();
-    ref.invalidate(videoTimelineProvider);
+    ref.invalidate(videoTimelineViewModel);
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ref.watch(videoTimelineProvider).when(
+    return ref.watch(videoTimelineViewModel).when(
           data: (videos) => RefreshIndicator(
             displacement: 50,
             edgeOffset: 20,

@@ -66,7 +66,7 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   }
 
   void _onUploadPressed() {
-    ref.read(videoTimelineProvider.notifier).uploadVideo();
+    ref.read(videoTimelineViewModel.notifier).uploadVideo();
   }
 
   @override
@@ -86,10 +86,10 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
               ),
             ),
           IconButton(
-            onPressed: ref.watch(videoTimelineProvider).isLoading
+            onPressed: ref.watch(videoTimelineViewModel).isLoading
                 ? () {}
                 : _onUploadPressed,
-            icon: ref.watch(videoTimelineProvider).isLoading
+            icon: ref.watch(videoTimelineViewModel).isLoading
                 ? const CircularProgressIndicator()
                 : const FaIcon(
                     FontAwesomeIcons.cloudArrowUp,

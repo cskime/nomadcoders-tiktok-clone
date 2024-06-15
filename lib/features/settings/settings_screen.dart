@@ -21,15 +21,15 @@ class SettingsScreen extends ConsumerWidget {
           child: ListView(
             children: [
               SwitchListTile.adaptive(
-                value: ref.watch(playbackConfigProvider).muted,
-                onChanged: ref.read(playbackConfigProvider.notifier).setMuted,
+                value: ref.watch(playbackConfigViewModel).muted,
+                onChanged: ref.read(playbackConfigViewModel.notifier).setMuted,
                 title: const Text('Muted video'),
                 subtitle: const Text('Video will be muted by default.'),
               ),
               SwitchListTile.adaptive(
-                value: ref.watch(playbackConfigProvider).autoplay,
+                value: ref.watch(playbackConfigViewModel).autoplay,
                 onChanged:
-                    ref.read(playbackConfigProvider.notifier).setAutoplay,
+                    ref.read(playbackConfigViewModel.notifier).setAutoplay,
                 title: const Text('Autoplay'),
                 subtitle: const Text('Video will start playing automatically.'),
               ),
