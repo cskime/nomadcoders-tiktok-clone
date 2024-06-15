@@ -35,8 +35,8 @@ class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void _onNextTap() {
+    ref.read(signUpViewModel.notifier).signUp(context);
     // context.goNamed(InterestsScreen.routeName);
-    ref.read(signUpViewModel.notifier).signUp();
   }
 
   @override
