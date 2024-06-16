@@ -27,7 +27,6 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
     if (state.hasError) {
       showFirebaseErrorSnackBar(context, state.error);
     } else {
-      print("GO Home");
       context.go("/home");
     }
   }

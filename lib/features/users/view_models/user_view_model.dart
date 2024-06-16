@@ -15,6 +15,8 @@ class UserViewModel extends AsyncNotifier<UserProfileModel> {
 
   @override
   FutureOr<UserProfileModel> build() async {
+    await Future.delayed(const Duration(seconds: 3));
+
     _userRepository = ref.read(userRepository);
     _authenticationRepository = ref.read(authenticationRepository);
 
@@ -27,7 +29,7 @@ class UserViewModel extends AsyncNotifier<UserProfileModel> {
       }
     }
 
-    // Logout 된 상태 또는 sign up 해야 하는 경우
+    // Logout 된 상태 또는 sign up 해야 하는 /경우
     return UserProfileModel.empty();
   }
 

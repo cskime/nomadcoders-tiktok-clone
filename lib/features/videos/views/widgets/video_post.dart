@@ -31,7 +31,6 @@ class VideoPostState extends ConsumerState<VideoPost>
       VideoPlayerController.asset('assets/videos/video.mp4');
 
   bool _isPaused = false;
-  bool _isMuted = false;
 
   final _animationDuration = const Duration(milliseconds: 200);
 
@@ -39,7 +38,6 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   void _setMute(bool mute) async {
     await _videoPlayerController.setVolume(mute ? 0 : 1);
-    _isMuted = mute;
   }
 
   @override
