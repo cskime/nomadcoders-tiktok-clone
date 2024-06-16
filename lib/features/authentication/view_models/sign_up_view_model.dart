@@ -34,7 +34,7 @@ class SignUpViewModel extends AsyncNotifier<void> {
           userData["password"],
         );
 
-        users.createAccount(userCredential);
+        users.createProfile(userCredential);
       },
     );
 
