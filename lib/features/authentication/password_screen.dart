@@ -44,8 +44,11 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
   void _onSubmit() {
     if (!_isPasswordValid()) return;
 
-    final state = ref.read(signUpUserData.notifier).state;
-    ref.read(signUpUserData.notifier).state = {...state, "password": _password};
+    final userData = ref.read(signUpUserData.notifier).state;
+    ref.read(signUpUserData.notifier).state = {
+      ...userData,
+      "password": _password,
+    };
 
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const BirthdayScreen(),

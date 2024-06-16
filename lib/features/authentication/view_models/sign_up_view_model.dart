@@ -34,7 +34,16 @@ class SignUpViewModel extends AsyncNotifier<void> {
           userData["password"],
         );
 
-        users.createProfile(userCredential);
+        if (userCredential.user == null) {
+          throw Exception("Account not created");
+        }
+
+        users.createProfile(
+          uid: userCredential.user!.uid,
+          email: userCredential.user!.email,
+          name: userData["name"] ?? userCredential.user!.displayName,
+          birth: userData["birth"],
+        );
       },
     );
 

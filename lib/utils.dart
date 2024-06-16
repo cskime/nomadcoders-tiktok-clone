@@ -8,11 +8,16 @@ void showFirebaseErrorSnackBar(
   BuildContext context,
   Object? error,
 ) {
+  String? errorMessage;
+  if (error is FirebaseException) {
+    errorMessage = error.message;
+  }
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       showCloseIcon: true,
       content: Text(
-        (error as FirebaseException).message ?? "Something wen't wrong",
+        errorMessage ?? "Something wen't wrong",
       ),
     ),
   );
