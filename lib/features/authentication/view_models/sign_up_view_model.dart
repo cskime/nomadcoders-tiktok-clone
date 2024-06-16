@@ -42,7 +42,6 @@ class SignUpViewModel extends AsyncNotifier<void> {
           uid: userCredential.user!.uid,
           email: userCredential.user!.email,
           name: userData["name"] ?? userCredential.user!.displayName,
-          birth: userData["birth"],
         );
       },
     );

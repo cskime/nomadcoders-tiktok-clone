@@ -196,26 +196,26 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                             ),
                           ),
                           Gaps.v14,
-                          const Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: Sizes.size32),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.size32),
                             child: Text(
-                              'All highlights and where to watch live matches on FIFA+',
+                              data.bio,
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Gaps.v14,
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              FaIcon(
+                              const FaIcon(
                                 FontAwesomeIcons.link,
                                 size: Sizes.size12,
                               ),
                               Gaps.h4,
                               Text(
-                                'https://noamdcoders.co',
-                                style: TextStyle(
+                                data.link,
+                                style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

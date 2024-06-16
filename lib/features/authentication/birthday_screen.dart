@@ -35,12 +35,6 @@ class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    final userData = ref.read(signUpUserData.notifier).state;
-    ref.read(signUpUserData.notifier).state = {
-      ...userData,
-      "birth": _birthdayController.text,
-    };
-
     ref.read(signUpViewModel.notifier).signUp(context);
     // context.goNamed(InterestsScreen.routeName);
   }
