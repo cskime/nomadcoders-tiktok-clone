@@ -39,13 +39,30 @@ class VideosRepository {
     return query.startAfter([lastItemCreatedAt]).get();
   }
 
-  Future<void> likeVideo(String videoId, String userId) async {
-    final query = _database.collection("likes").doc("$videoId-$userId");
+  DocumentReference<Map<String, dynamic>> _fetchLike({
+    required String videoId,
+    required String userId,
+  }) =>
+      _database.collection("likes").doc("$videoId-$userId");
+
+  Future<void> toggleLikeVideo({
+    required String videoId,
+    required String userId,
+  }) async {
+    final query = _fetchLike(videoId: videoId, userId: userId);
     final like = await query.get();
     if (!like.exists) {
       await query.set({"createdAt": DateTime.now().millisecondsSinceEpoch});
     } else {
       await query.delete();
     }
+  }
+
+  Future<bool> fetchIsLikedVideo({
+    required String videoId,
+    required String userId,
+  }) async {
+    final like = await _fetchLike(videoId: videoId, userId: userId).get();
+    return like.exists;
   }
 }

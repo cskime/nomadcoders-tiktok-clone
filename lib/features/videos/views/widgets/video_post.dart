@@ -35,6 +35,8 @@ class VideoPostState extends ConsumerState<VideoPost>
       VideoPlayerController.asset('assets/videos/video.mp4');
 
   bool _isPaused = false;
+  bool _isLiked = false;
+  int _likeCount = 0;
 
   final _animationDuration = const Duration(milliseconds: 200);
 
@@ -48,6 +50,7 @@ class VideoPostState extends ConsumerState<VideoPost>
   void initState() {
     super.initState();
     _initVideoPlayer();
+    _initLike();
 
     _animationController = AnimationController(
       vsync: this,
@@ -72,6 +75,13 @@ class VideoPostState extends ConsumerState<VideoPost>
     } else {
       _videoPlayerController.setVolume(1);
     }
+  }
+
+  void _initLike() async {
+    _likeCount = widget.videoData.likeCount;
+    _isLiked = await ref
+        .read(videoPostProvider(widget.videoData.id).notifier)
+        .fetchIsLikedVideo();
   }
 
   void _initVideoPlayer() async {
@@ -147,7 +157,11 @@ class VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _onLikeTap() {
-    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+    ref.read(videoPostProvider(widget.videoData.id).notifier).toggleLikeVideo();
+    setState(() {
+      _isLiked = !_isLiked;
+      _likeCount += _isLiked ? 1 : -1;
+    });
   }
 
   @override
@@ -231,7 +245,8 @@ class VideoPostState extends ConsumerState<VideoPost>
                 Gaps.v20,
                 VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
-                  title: S.of(context).likeCount(widget.videoData.likeCount),
+                  color: _isLiked ? Colors.red : Colors.white,
+                  title: S.of(context).likeCount(_likeCount),
                   onPressed: _onLikeTap,
                 ),
                 Gaps.v20,

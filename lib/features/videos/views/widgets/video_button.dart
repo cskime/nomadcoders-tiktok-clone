@@ -7,11 +7,13 @@ class VideoButton extends StatelessWidget {
   const VideoButton({
     super.key,
     required this.icon,
+    this.color = Colors.white,
     required this.title,
     this.onPressed,
   });
 
   final IconData icon;
+  final Color color;
   final String title;
   final void Function()? onPressed;
 
@@ -23,7 +25,7 @@ class VideoButton extends StatelessWidget {
         children: [
           FaIcon(
             icon,
-            color: Colors.white,
+            color: color,
             size: Sizes.size24,
           ),
           Gaps.v4,
