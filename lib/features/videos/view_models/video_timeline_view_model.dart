@@ -13,13 +13,25 @@ class VideoTimelineViewModel extends AsyncNotifier<List<VideoModel>> {
   late final VideosRepository _videosRepository;
   List<VideoModel> _list = [];
 
+  Future<List<VideoModel>> _fetchVideos({int? lastItemCreatedAt}) async {
+    final result = await _videosRepository.fetchVideos();
+    final videoModels = result.docs
+        .map((document) => VideoModel.fromJson(document.data()))
+        .toList();
+    return videoModels;
+  }
+
   @override
   FutureOr<List<VideoModel>> build() async {
     _videosRepository = ref.read(videosRepository);
-    final result = await _videosRepository.fetchVideos();
-    _list = result.docs
-        .map((document) => VideoModel.fromJson(document.data()))
-        .toList();
+    _list = await _fetchVideos();
     return _list;
+  }
+
+  Future<void> fetchNextPage() async {
+    final nextPage = await _fetchVideos(
+      lastItemCreatedAt: _list.last.createdAt,
+    );
+    state = AsyncValue.data([..._list, ...nextPage]);
   }
 }
