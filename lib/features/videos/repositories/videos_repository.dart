@@ -23,4 +23,11 @@ class VideosRepository {
   Future<void> saveVideo(VideoModel videoModel) async {
     await _database.collection("videos").add(videoModel.toJson());
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos() async {
+    return await _database
+        .collection("videos")
+        .orderBy("createdAt", descending: true)
+        .get();
+  }
 }

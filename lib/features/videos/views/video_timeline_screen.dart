@@ -49,27 +49,28 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(videoTimelineViewModel).when(
-          data: (videos) {
-            print("Video timeline data");
-            return RefreshIndicator(
-              displacement: 50,
-              edgeOffset: 20,
-              backgroundColor: Colors.black,
-              color: Theme.of(context).primaryColor,
-              strokeWidth: 4,
-              onRefresh: _onRefresh,
-              child: PageView.builder(
-                controller: _pageController,
-                scrollDirection: Axis.vertical,
-                onPageChanged: _onPageChanged,
-                itemCount: videos.length,
-                itemBuilder: (context, index) => VideoPost(
+          data: (videos) => RefreshIndicator(
+            displacement: 50,
+            edgeOffset: 20,
+            backgroundColor: Colors.black,
+            color: Theme.of(context).primaryColor,
+            strokeWidth: 4,
+            onRefresh: _onRefresh,
+            child: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              onPageChanged: _onPageChanged,
+              itemCount: videos.length,
+              itemBuilder: (context, index) {
+                final videoData = videos[index];
+                return VideoPost(
                   onVideoFinished: _onVideoFinished,
                   videoIndex: index,
-                ),
-              ),
-            );
-          },
+                  videoData: videoData,
+                );
+              },
+            ),
+          ),
           error: (error, stackTrace) => Center(
             child: Text(
               'Could not load videos: $error',
