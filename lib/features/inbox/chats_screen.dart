@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
+import 'package:tiktok_clone/features/inbox/chat_users_screen.dart';
 
 class ChatsScreen extends StatefulWidget {
   static const routeName = 'chats';
@@ -15,17 +16,18 @@ class ChatsScreen extends StatefulWidget {
 
 class _ChatsScreenState extends State<ChatsScreen> {
   final _animatedListKey = GlobalKey<AnimatedListState>();
-
-  final List<int> _items = [];
-
   final _duration = const Duration(milliseconds: 300);
+  int _insertIndex = 0;
 
-  void _addItem() {
-    _animatedListKey.currentState?.insertItem(
-      _items.length,
-      duration: _duration,
-    );
-    _items.add(_items.length);
+  void _onAddPressed() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const ChatUsersScreen(),
+    ));
+
+    // _animatedListKey.currentState?.insertItem(
+    //   _insertIndex,
+    //   duration: _duration,
+    // );
   }
 
   void _deleteItem(int index) {
@@ -40,7 +42,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
       ),
       duration: _duration,
     );
-    _items.removeAt(index);
+    _insertIndex -= 1;
   }
 
   void _onChatTap(int index) {
@@ -90,7 +92,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
         elevation: 1,
         actions: [
           IconButton(
-            onPressed: _addItem,
+            onPressed: _onAddPressed,
             icon: const FaIcon(FontAwesomeIcons.plus),
           )
         ],

@@ -12,12 +12,18 @@ final userRepository = Provider(
 class UserRepository {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _database = FirebaseFirestore.instance;
+  late final _collection = _database.collection("users");
 
   Future<void> createProfile(UserProfileModel userProfile) async {
     await _database
         .collection("users")
         .doc(userProfile.uid)
         .set(userProfile.toJson());
+  }
+
+  Future<List<Map<String, dynamic>>> fetchProfiles() async {
+    final snapshot = await _collection.get();
+    return snapshot.docs.map((document) => document.data()).toList();
   }
 
   Future<Map<String, dynamic>?> findProfile(String uid) async {
