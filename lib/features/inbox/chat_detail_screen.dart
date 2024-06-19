@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/inbox/view_models/messages_view_model.dart';
 
-class ChatDetailScreen extends StatefulWidget {
+class ChatDetailScreen extends ConsumerStatefulWidget {
   static const routeName = 'chatDetail';
   static const routeURL = ':chatId';
 
@@ -15,12 +17,25 @@ class ChatDetailScreen extends StatefulWidget {
   final String chatId;
 
   @override
-  State<ChatDetailScreen> createState() => _ChatDetailScreenState();
+  ChatDetailScreenState createState() => ChatDetailScreenState();
 }
 
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
+class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
+  final _textEditingController = TextEditingController();
+
+  void _onSendPressed() {
+    final text = _textEditingController.text;
+    if (text.isEmpty) {
+      return;
+    }
+
+    ref.read(messagesProvider.notifier).sendMessage(text);
+    _textEditingController.text = "";
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(messagesProvider).isLoading;
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -137,6 +152,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _textEditingController,
                       cursorColor: Theme.of(context).primaryColor,
                       decoration: InputDecoration(
                         hintText: 'Send a message...',
@@ -172,9 +188,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       color: Colors.grey.shade400,
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(
-                      child: FaIcon(
-                        FontAwesomeIcons.solidPaperPlane,
+                    child: IconButton(
+                      onPressed: isLoading ? null : _onSendPressed,
+                      icon: FaIcon(
+                        isLoading
+                            ? FontAwesomeIcons.hourglass
+                            : FontAwesomeIcons.solidPaperPlane,
                         color: Colors.white,
                         size: Sizes.size18,
                       ),
