@@ -10,10 +10,10 @@ final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
   () => MessagesViewModel(),
 );
 
-final chatProvider = StreamProvider<List<Message>>((ref) {
+final chatProvider = StreamProvider.autoDispose<List<Message>>((ref) {
   final database = FirebaseFirestore.instance;
   return database
-      .collection("chat_roomos")
+      .collection("chat_rooms")
       .doc("JgM17lyY08VRZ8W4xC8g")
       .collection("texts")
       .orderBy("createdAt")
@@ -23,6 +23,8 @@ final chatProvider = StreamProvider<List<Message>>((ref) {
             .map((document) => Message.fromJson(
                   document.data(),
                 ))
+            .toList()
+            .reversed
             .toList(),
       );
 });

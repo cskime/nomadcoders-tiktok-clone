@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:871716723027:android:7336804f80b903065ba9a6",
+        "android_client_info": {
+          "package_name": "com.example.tiktok_c"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSfCwCTNy-uGHMAznEKIRqfFP0uO2wE1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:871716723027:android:efd9773030e316a25ba9a6",
         "android_client_info": {
           "package_name": "com.example.tiktok_clone"
