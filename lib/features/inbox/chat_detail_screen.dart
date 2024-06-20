@@ -30,13 +30,13 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       return;
     }
 
-    ref.read(messagesProvider.notifier).sendMessage(text);
+    ref.read(messagesProvider(widget.chatId).notifier).sendMessage(text);
     _textEditingController.text = "";
   }
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(messagesProvider).isLoading;
+    final isLoading = ref.watch(messagesProvider(widget.chatId)).isLoading;
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -104,7 +104,7 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ),
       body: Stack(
         children: [
-          ref.watch(chatProvider).when(
+          ref.watch(chatProvider(widget.chatId)).when(
                 data: (data) => ListView.separated(
                   reverse: true,
                   padding: const EdgeInsets.only(

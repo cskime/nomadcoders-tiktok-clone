@@ -19,21 +19,23 @@ class ChatsScreen extends ConsumerStatefulWidget {
 
 class ChatsScreenState extends ConsumerState<ChatsScreen> {
   void _onAddPressed() async {
-    final newChat = await Navigator.of(context).push(
+    final newChat = await Navigator.of(context).push<Chat?>(
       MaterialPageRoute(
         builder: (context) => const ChatUsersScreen(),
       ),
     );
 
-    if (newChat is Chat) {
-      await ref.read(chatsViewModelProvider.notifier).createChat(newChat);
+    if (newChat != null) {
+      final chatModel =
+          await ref.read(chatsViewModelProvider.notifier).createChat(newChat);
+      _enterChat(chatModel.chatId);
     }
   }
 
-  void _onChatTap(int index) {
+  void _enterChat(String chatId) {
     context.pushNamed(
       ChatDetailScreen.routeName,
-      params: {'chatId': '$index'},
+      params: {'chatId': chatId},
     );
   }
 
@@ -55,12 +57,12 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
           return ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
-              final chat = data[index];
+              final model = data[index];
               final otherUserName = ref
                   .read(chatsViewModelProvider.notifier)
-                  .otherUserNameFromChat(chat);
+                  .otherUserNameFromChat(model.chat);
               return ListTile(
-                onTap: () => _onChatTap(index),
+                onTap: () => _enterChat(model.chatId),
                 leading: CircleAvatar(
                   radius: 32,
                   foregroundImage: const NetworkImage(

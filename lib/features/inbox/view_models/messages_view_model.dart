@@ -6,15 +6,16 @@ import 'package:tiktok_clone/features/authentication/repositories/authentication
 import 'package:tiktok_clone/features/inbox/models/message.dart';
 import 'package:tiktok_clone/features/inbox/repositories/messages_repository.dart';
 
-final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
+final messagesProvider =
+    AsyncNotifierProvider.family<MessagesViewModel, void, String>(
   () => MessagesViewModel(),
 );
 
-final chatProvider = StreamProvider.autoDispose<List<Message>>((ref) {
-  final database = FirebaseFirestore.instance;
-  return database
+final chatProvider =
+    StreamProvider.family.autoDispose<List<Message>, String>((ref, chatId) {
+  return FirebaseFirestore.instance
       .collection("chat_rooms")
-      .doc("JgM17lyY08VRZ8W4xC8g")
+      .doc(chatId)
       .collection("texts")
       .orderBy("createdAt")
       .snapshots()
@@ -29,13 +30,13 @@ final chatProvider = StreamProvider.autoDispose<List<Message>>((ref) {
       );
 });
 
-class MessagesViewModel extends AsyncNotifier<void> {
+class MessagesViewModel extends FamilyAsyncNotifier<void, String> {
   late final MessagesRepository _messagesRepository;
   late final AuthenticationRepository _authenticationRepository;
 
   @override
-  FutureOr<void> build() {
-    _messagesRepository = ref.read(messagesRepository);
+  FutureOr<void> build(String arg) {
+    _messagesRepository = ref.read(messagesRepository(arg));
     _authenticationRepository = ref.read(authenticationRepository);
   }
 

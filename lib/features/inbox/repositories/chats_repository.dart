@@ -7,8 +7,9 @@ class ChatsRepository {
   final _storage = FirebaseFirestore.instance;
   late final _collection = _storage.collection("chat_rooms");
 
-  Future<void> createChat(Map<String, dynamic> data) async {
-    await _collection.add(data);
+  Future<String> createChat(Map<String, dynamic> data) async {
+    final document = await _collection.add(data);
+    return document.id;
   }
 
   Future<List<Map<String, dynamic>>> fetchChats(String uid) async {
@@ -18,6 +19,8 @@ class ChatsRepository {
       snapshot = await _collection.where("user2Id", isEqualTo: uid).get();
     }
 
-    return snapshot.docs.map((document) => document.data()).toList();
+    return snapshot.docs
+        .map((document) => {...document.data(), "id": document.id})
+        .toList();
   }
 }
