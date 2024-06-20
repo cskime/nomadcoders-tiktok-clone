@@ -15,7 +15,17 @@ class _ChatUsersScreenState extends ConsumerState<ChatUsersScreen> {
   UserProfileModel? _selectedUser;
   bool get _selected => _selectedUser != null;
 
-  void _onChatPressed() {}
+  void _onStartChatPressed() {
+    if (_selectedUser == null) {
+      return;
+    }
+
+    final newChat = ref
+        .read(chatUsersViewModelProvider.notifier)
+        .createNewChatToUser(_selectedUser!);
+
+    Navigator.of(context).pop(newChat);
+  }
 
   void _onUserSelected(UserProfileModel user) {
     setState(() {
@@ -31,7 +41,7 @@ class _ChatUsersScreenState extends ConsumerState<ChatUsersScreen> {
         elevation: 1,
         actions: [
           TextButton(
-            onPressed: _selected ? _onChatPressed : null,
+            onPressed: _selected ? _onStartChatPressed : null,
             child: Text(
               "Start chat",
               style: TextStyle(
