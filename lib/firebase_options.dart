@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDSfCwCTNy-uGHMAznEKIRqfFP0uO2wE1w',
-    appId: '1:871716723027:android:7336804f80b903065ba9a6',
+    appId: '1:871716723027:android:efd9773030e316a25ba9a6',
     messagingSenderId: '871716723027',
     projectId: 'tiktok-cskim',
     storageBucket: 'tiktok-cskim.appspot.com',

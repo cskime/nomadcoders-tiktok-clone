@@ -1,0 +1,34 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok_clone/features/authentication/repositories/authentication_repository.dart';
+
+final notificationsProvider = AsyncNotifierProvider(
+  () => NotificationsProvider(),
+);
+
+class NotificationsProvider extends AsyncNotifier {
+  final _database = FirebaseFirestore.instance;
+  final _messaging = FirebaseMessaging.instance;
+
+  Future<void> updateToken(String token) async {
+    final user = ref.read(authenticationRepository).user;
+    await _database.collection("users").doc(user!.uid).update({"token": token});
+  }
+
+  @override
+  FutureOr build() async {
+    final token = await _messaging.getToken();
+    if (token == null) {
+      return;
+    }
+
+    await updateToken(token);
+
+    _messaging.onTokenRefresh.listen(
+      (newToken) async => await updateToken(newToken),
+    );
+  }
+}
