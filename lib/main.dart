@@ -51,7 +51,7 @@ class TikTokApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-      ],
+       ],
       supportedLocales: const [
         Locale('en'),
         Locale('ko'),
